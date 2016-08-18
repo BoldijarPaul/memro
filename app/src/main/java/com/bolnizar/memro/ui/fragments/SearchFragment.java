@@ -83,12 +83,13 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public void onDestroyView() {
         mUnbinder.unbind();
+        mMemeTemplatesUpdatePresenter.sleep();
+        mSearchAdapter = null;
         super.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
-        mMemeTemplatesUpdatePresenter.sleep();
         super.onDestroy();
     }
 
