@@ -1,26 +1,29 @@
-[
-  {
-    "id": 1,
-    "name": "Bad Luck Brian",
-    "imageUrl": "https://imgflip.com/s/meme/Bad-Luck-Brian.jpg",
-    "tags": "bad,luck,brian,ghinion"
-  },
-  {
-    "id": 2,
-    "name": "Gigi Becali",
-    "imageUrl": "https://i.imgflip.com/50yih.jpg",
-    "tags": "gigi,becali,hahalera"
-  },
-  {
-    "id": 3,
-    "name": "Andrei Versace",
-    "imageUrl": "https://i.imgflip.com/yoru2.jpg",
-    "tags": "andrei,versace,praduitori"
-  },
-  {
-    "id": 4,
-    "name": "Nicolae Guta",
-    "imageUrl": "http://www.ebihoreanul.ro/modules/news/files/nicolae-guta.jpg",
-    "tags": "nicolae,guta,manele"
-  }
-]
+{
+  "version": 1,
+  "templates": [
+    {
+      "id": 1,
+      "name": "Bad Luck Brian",
+      "imageUrl": "https://imgflip.com/s/meme/Bad-Luck-Brian.jpg",
+      "tags": "bad,luck,brian,ghinion"
+    },
+    {
+      "id": 2,
+      "name": "Gigi Becali",
+      "imageUrl": "https://i.imgflip.com/50yih.jpg",
+      "tags": "gigi,becali,hahalera"
+    },
+    {
+      "id": 3,
+      "name": "Andrei Versace",
+      "imageUrl": "https://i.imgflip.com/yoru2.jpg",
+      "tags": "andrei,versace,praduitori"
+    },
+    {
+      "id": 4,
+      "name": "Nicolae Guta",
+      "imageUrl": "http://www.ebihoreanul.ro/modules/news/files/nicolae-guta.jpg",
+      "tags": "nicolae,guta,manele"
+    }
+  ]
+}

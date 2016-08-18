@@ -30,6 +30,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.jakewharton:butterknife:8.2.1'
     compile 'com.android.support:support-v4:24.1.1'
@@ -39,4 +40,6 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.6'
     compile 'com.google.dagger:dagger:2.6'
     provided 'javax.annotation:jsr250-api:1.0'
+    compile 'com.jakewharton.timber:timber:4.2.0'
+    compile group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: '3.4.1'
 }

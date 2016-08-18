@@ -1,5 +1,8 @@
 package com.bolnizar.memro.ui.fragments;
 
+import com.bolnizar.memro.R;
+import com.bolnizar.memro.mvp.presenters.MemeTemplatesUpdatePresenter;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,8 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bolnizar.memro.R;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -26,11 +27,13 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     RecyclerView mRecyclerView;
 
     private Unbinder mUnbinder;
+    private MemeTemplatesUpdatePresenter mMemeTemplatesUpdatePresenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        mMemeTemplatesUpdatePresenter = new MemeTemplatesUpdatePresenter(getContext());
     }
 
     @Override
@@ -43,6 +46,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
+
+        mMemeTemplatesUpdatePresenter.wakeUp();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -61,6 +66,13 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onDestroyView() {
         mUnbinder.unbind();
         super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        mMemeTemplatesUpdatePresenter.sleep();
+        super.onDestroy();
+
     }
 
     @Override

@@ -1,9 +1,7 @@
 package com.bolnizar.memro.data;
 
-import com.bolnizar.memro.mvp.models.MemeTemplate;
+import com.bolnizar.memro.mvp.models.MemeTemplateResponse;
 import com.bolnizar.memro.mvp.models.Version;
-
-import java.util.List;
 
 import retrofit2.http.GET;
 import rx.Observable;
@@ -13,9 +11,9 @@ import rx.Observable;
  */
 public interface ApiService {
 
-    @GET("/templates.json")
-    Observable<List<MemeTemplate>> getTemplates();
+    @GET("templates.json")
+    Observable<MemeTemplateResponse> getTemplates();
 
-    @GET("/version.json")
+    @GET("version.json")
     Observable<Version> getTemplatesVersion();
 }

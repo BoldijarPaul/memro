@@ -1,5 +1,6 @@
 package com.bolnizar.memro.data.dagger;
 
+import com.bolnizar.memro.mvp.presenters.MemeTemplatesUpdatePresenter;
 import com.bolnizar.memro.ui.BaseApp;
 
 /**
@@ -7,4 +8,6 @@ import com.bolnizar.memro.ui.BaseApp;
  */
 public interface AppGraph {
     void inject(BaseApp baseApp);
+
+    void inject(MemeTemplatesUpdatePresenter memeTemplatesUpdatePresenter);
 }
