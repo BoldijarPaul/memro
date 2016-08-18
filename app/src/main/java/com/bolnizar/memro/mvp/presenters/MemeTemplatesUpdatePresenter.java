@@ -65,7 +65,7 @@ public class MemeTemplatesUpdatePresenter extends RxPresenter<MemeTemplatesUpdat
     private void getLatestTemplates() {
         mApiService.getTemplates().
                 subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread().io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<MemeTemplateResponse>() {
                     @Override
                     public void onNext(MemeTemplateResponse memeTemplateResponse) {
