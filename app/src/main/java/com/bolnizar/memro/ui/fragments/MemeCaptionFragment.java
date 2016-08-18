@@ -20,6 +20,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.grantland.widget.AutofitHelper;
 import rx.Observable;
 
 public class MemeCaptionFragment extends Fragment implements MemeCaptionView {
@@ -65,6 +66,8 @@ public class MemeCaptionFragment extends Fragment implements MemeCaptionView {
         mMemeCaptionPresenter = new MemeCaptionPresenter(this);
         mMemeCaptionPresenter.wakeUp();
         mMemeCaptionPresenter.loadMemeById(getArguments().getLong(ARG_MEME_ID, 0));
+        AutofitHelper.create(mImageTopText);
+        AutofitHelper.create(mImageBottomText);
     }
 
     @Override

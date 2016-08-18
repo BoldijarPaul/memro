@@ -58,6 +58,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
+        mSearchAdapter = new SearchAdapter(this);
         mMemeTemplatesUpdatePresenter.wakeUp();
         setupList();
     }

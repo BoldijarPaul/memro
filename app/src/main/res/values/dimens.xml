@@ -1,3 +1,4 @@
 <resources>
     <dimen name="margin_edit_text">15dp</dimen>
+    <dimen name="image_caption_side_margin_text">10dp</dimen>
 </resources>

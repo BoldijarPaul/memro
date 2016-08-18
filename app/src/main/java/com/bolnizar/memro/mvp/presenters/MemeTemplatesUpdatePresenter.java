@@ -17,6 +17,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -42,47 +43,50 @@ public class MemeTemplatesUpdatePresenter extends RxPresenter<MemeTemplatesUpdat
     public void wakeUp() {
         super.wakeUp();
 
-        mApiService.getTemplatesVersion()
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe(new BaseObserver<Version>() {
-                    @Override
-                    public void onNext(Version version) {
-                        if (version == null) {
-                            onError(new Exception("Version is null"));
-                            return;
-                        }
-                        if (mMemeTemplatesVersion.get() < version.number) {
-                            Timber.d("Trying to get more recent memes");
-                            getLatestTemplates();
-                        } else {
-                            Timber.d("Already having the most recent memes");
-                        }
-                    }
-                });
+        Subscription subscription =
+                mApiService.getTemplatesVersion()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseObserver<Version>() {
+                            @Override
+                            public void onNext(Version version) {
+                                if (version == null) {
+                                    onError(new Exception("Version is null"));
+                                    return;
+                                }
+                                if (mMemeTemplatesVersion.get() < version.number) {
+                                    Timber.d("Trying to get more recent memes");
+                                    getLatestTemplates();
+                                } else {
+                                    Timber.d("Already having the most recent memes");
+                                }
+                            }
+                        });
+        manageViewSubscription(subscription);
     }
 
     private void getLatestTemplates() {
-        mApiService.getTemplates().
-                subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseObserver<MemeTemplateResponse>() {
-                    @Override
-                    public void onNext(MemeTemplateResponse memeTemplateResponse) {
-                        if (memeTemplateResponse == null || memeTemplateResponse.memeTemplates == null) {
-                            onError(new Exception("Templates are null"));
-                            return;
-                        }
-                        List<MemeTemplate> memeTemplates = memeTemplateResponse.memeTemplates;
-                        for (int i = 0, memeTemplatesSize = memeTemplates.size(); i < memeTemplatesSize; i++) {
-                            MemeTemplate memeTemplate = memeTemplates.get(i);
-                            SugarRecord.save(memeTemplate);
-                        }
-                        mMemeTemplatesVersion.set(memeTemplateResponse.version);
-                        getView().gotLatestMemeTemplates();
-                        Timber.d("Saved latest templates");
-                    }
-                });
-
+        Subscription subscription =
+                mApiService.getTemplates().
+                        subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new BaseObserver<MemeTemplateResponse>() {
+                            @Override
+                            public void onNext(MemeTemplateResponse memeTemplateResponse) {
+                                if (memeTemplateResponse == null || memeTemplateResponse.memeTemplates == null) {
+                                    onError(new Exception("Templates are null"));
+                                    return;
+                                }
+                                List<MemeTemplate> memeTemplates = memeTemplateResponse.memeTemplates;
+                                for (int i = 0, memeTemplatesSize = memeTemplates.size(); i < memeTemplatesSize; i++) {
+                                    MemeTemplate memeTemplate = memeTemplates.get(i);
+                                    SugarRecord.save(memeTemplate);
+                                }
+                                mMemeTemplatesVersion.set(memeTemplateResponse.version);
+                                getView().gotLatestMemeTemplates();
+                                Timber.d("Saved latest templates");
+                            }
+                        });
+        manageViewSubscription(subscription);
     }
 }
