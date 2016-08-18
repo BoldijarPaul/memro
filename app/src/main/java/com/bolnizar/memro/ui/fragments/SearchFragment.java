@@ -2,6 +2,7 @@ package com.bolnizar.memro.ui.fragments;
 
 import com.bolnizar.memro.R;
 import com.bolnizar.memro.mvp.presenters.MemeTemplatesUpdatePresenter;
+import com.bolnizar.memro.mvp.views.MemeTemplatesUpdateView;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, MemeTemplatesUpdateView {
 
     @BindView(R.id.search_recyclerview)
     RecyclerView mRecyclerView;
@@ -33,7 +34,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mMemeTemplatesUpdatePresenter = new MemeTemplatesUpdatePresenter(getContext());
+        mMemeTemplatesUpdatePresenter = new MemeTemplatesUpdatePresenter(getContext(), this);
     }
 
     @Override
@@ -46,7 +47,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
-
         mMemeTemplatesUpdatePresenter.wakeUp();
     }
 
@@ -72,7 +72,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onDestroy() {
         mMemeTemplatesUpdatePresenter.sleep();
         super.onDestroy();
-
     }
 
     @Override
@@ -83,5 +82,10 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;
+    }
+
+    @Override
+    public void gotLatestMemeTemplates() {
+
     }
 }

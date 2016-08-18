@@ -4,22 +4,27 @@ import com.bolnizar.memro.data.ApiService;
 import com.bolnizar.memro.data.dagger.qualifiers.MemeTemplatesVersion;
 import com.bolnizar.memro.data.prefs.IntegerPreference;
 import com.bolnizar.memro.data.rx.BaseObserver;
+import com.bolnizar.memro.mvp.models.MemeTemplate;
 import com.bolnizar.memro.mvp.models.MemeTemplateResponse;
 import com.bolnizar.memro.mvp.models.Version;
+import com.bolnizar.memro.mvp.views.MemeTemplatesUpdateView;
 import com.bolnizar.memro.ui.BaseApp;
 import com.orm.SugarRecord;
 
 import android.content.Context;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
  * Created by BoldijarPaul on 18/08/16.
  */
-public class MemeTemplatesUpdatePresenter extends RxPresenter<Object> {
+public class MemeTemplatesUpdatePresenter extends RxPresenter<MemeTemplatesUpdateView> {
 
     @Inject
     ApiService mApiService;
@@ -28,8 +33,8 @@ public class MemeTemplatesUpdatePresenter extends RxPresenter<Object> {
     @Inject
     IntegerPreference mMemeTemplatesVersion;
 
-    public MemeTemplatesUpdatePresenter(Context context) {
-        super(null);
+    public MemeTemplatesUpdatePresenter(Context context, MemeTemplatesUpdateView memeTemplatesUpdateView) {
+        super(memeTemplatesUpdateView);
         BaseApp.get(context).graph().inject(this);
     }
 
@@ -60,7 +65,7 @@ public class MemeTemplatesUpdatePresenter extends RxPresenter<Object> {
     private void getLatestTemplates() {
         mApiService.getTemplates().
                 subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread().io())
                 .subscribe(new BaseObserver<MemeTemplateResponse>() {
                     @Override
                     public void onNext(MemeTemplateResponse memeTemplateResponse) {
@@ -68,7 +73,11 @@ public class MemeTemplatesUpdatePresenter extends RxPresenter<Object> {
                             onError(new Exception("Templates are null"));
                             return;
                         }
-                        SugarRecord.save(memeTemplateResponse.memeTemplates);
+                        List<MemeTemplate> memeTemplates = memeTemplateResponse.memeTemplates;
+                        for (int i = 0, memeTemplatesSize = memeTemplates.size(); i < memeTemplatesSize; i++) {
+                            MemeTemplate memeTemplate = memeTemplates.get(i);
+                            SugarRecord.save(memeTemplate);
+                        }
                         mMemeTemplatesVersion.set(memeTemplateResponse.version);
                         Timber.d("Saved latest templates");
                     }
