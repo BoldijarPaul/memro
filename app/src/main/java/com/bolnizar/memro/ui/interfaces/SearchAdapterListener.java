@@ -6,5 +6,5 @@ package com.bolnizar.memro.ui.interfaces;
 public interface SearchAdapterListener {
     void onChange();
 
-    void onUseClicked(int memeId);
+    void onUseClicked(Long memeId);
 }

@@ -7,7 +7,7 @@ import com.orm.dsl.Table;
  */
 @Table
 public class MemeTemplate {
-    public int id;
+    public Long id;
     public String name;
     public String imageUrl;
     public String tags;

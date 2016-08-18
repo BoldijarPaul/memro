@@ -115,7 +115,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     @Override
-    public void onUseClicked(int memeId) {
+    public void onUseClicked(Long memeId) {
         EventBus.getDefault().post(new OpenMemeCaption(memeId));
     }
 }
