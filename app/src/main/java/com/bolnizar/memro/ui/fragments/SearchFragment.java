@@ -3,12 +3,14 @@ package com.bolnizar.memro.ui.fragments;
 import com.bolnizar.memro.R;
 import com.bolnizar.memro.mvp.presenters.MemeTemplatesUpdatePresenter;
 import com.bolnizar.memro.mvp.views.MemeTemplatesUpdateView;
+import com.bolnizar.memro.ui.adapters.SearchAdapter;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
@@ -29,12 +31,14 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     private Unbinder mUnbinder;
     private MemeTemplatesUpdatePresenter mMemeTemplatesUpdatePresenter;
+    private SearchAdapter mSearchAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mMemeTemplatesUpdatePresenter = new MemeTemplatesUpdatePresenter(getContext(), this);
+        mSearchAdapter = new SearchAdapter();
     }
 
     @Override
@@ -48,6 +52,13 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
         mMemeTemplatesUpdatePresenter.wakeUp();
+        setupList();
+    }
+
+    private void setupList() {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setAdapter(mSearchAdapter);
+        mSearchAdapter.updateToLatestTemplates();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -86,6 +97,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public void gotLatestMemeTemplates() {
-
+        mSearchAdapter.updateToLatestTemplates();
     }
 }
