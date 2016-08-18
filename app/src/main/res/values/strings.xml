@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">memro</string>
+
+    <!--menu-->
+    <string name="search_title">search</string>
 </resources>
