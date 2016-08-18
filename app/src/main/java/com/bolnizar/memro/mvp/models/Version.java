@@ -1,4 +1,4 @@
-package com.bolnizar.memro.data.models;
+package com.bolnizar.memro.mvp.models;
 
 /**
  * Created by BoldijarPaul on 18/08/16.
