@@ -6,4 +6,11 @@
 
     <!--search fragment-->
     <string name="nothing_found_search_meme">Nothing found. Try to change your search text.</string>
+
+    <!--caption fragment -->
+    <string name="top_text">Top text</string>
+    <string name="bottom_text">Bottom text</string>
+
+    <!--meme item-->
+    <string name="use">use</string>
 </resources>

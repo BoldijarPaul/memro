@@ -1,10 +1,13 @@
 package com.bolnizar.memro.ui.fragments;
 
 import com.bolnizar.memro.R;
+import com.bolnizar.memro.events.OpenMemeCaption;
 import com.bolnizar.memro.mvp.presenters.MemeTemplatesUpdatePresenter;
 import com.bolnizar.memro.mvp.views.MemeTemplatesUpdateView;
 import com.bolnizar.memro.ui.adapters.SearchAdapter;
-import com.bolnizar.memro.ui.interfaces.SearchAdapterChangedListener;
+import com.bolnizar.memro.ui.interfaces.SearchAdapterListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, MemeTemplatesUpdateView, SearchAdapterChangedListener {
+public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, MemeTemplatesUpdateView, SearchAdapterListener {
 
     @BindView(R.id.search_recyclerview)
     RecyclerView mRecyclerView;
@@ -109,5 +112,10 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onChange() {
         boolean adapterEmpty = mSearchAdapter.isEmpty();
         mEmptyText.setVisibility(adapterEmpty ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    @Override
+    public void onUseClicked(int memeId) {
+        EventBus.getDefault().post(new OpenMemeCaption(memeId));
     }
 }

@@ -2,7 +2,7 @@ package com.bolnizar.memro.ui.adapters;
 
 import com.bolnizar.memro.R;
 import com.bolnizar.memro.mvp.models.MemeTemplate;
-import com.bolnizar.memro.ui.interfaces.SearchAdapterChangedListener;
+import com.bolnizar.memro.ui.interfaces.SearchAdapterListener;
 import com.bumptech.glide.Glide;
 import com.orm.SugarRecord;
 
@@ -31,10 +31,10 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<MemeTemplate> mVisibleMemeTemplateList = new ArrayList<>();
 
     private String mLastFilterString = "";
-    private final SearchAdapterChangedListener mSearchAdapterChangedListener;
+    private final SearchAdapterListener mSearchAdapterListener;
 
-    public SearchAdapter(SearchAdapterChangedListener searchAdapterChangedListener) {
-        mSearchAdapterChangedListener = searchAdapterChangedListener;
+    public SearchAdapter(SearchAdapterListener searchAdapterListener) {
+        mSearchAdapterListener = searchAdapterListener;
     }
 
     public void updateToLatestTemplates() {
@@ -48,7 +48,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private void notifySearchDataSetChanged() {
         notifyDataSetChanged();
-        mSearchAdapterChangedListener.onChange();
+        mSearchAdapterListener.onChange();
     }
 
     public void filter(String text) {
@@ -86,9 +86,15 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MemeTemplateHolder memeTemplateHolder = (MemeTemplateHolder) holder;
-        MemeTemplate memeTemplate = getMemeTemplate(position);
+        final MemeTemplate memeTemplate = getMemeTemplate(position);
         Glide.with(memeTemplateHolder.image.getContext()).load(memeTemplate.imageUrl).into(memeTemplateHolder.image);
         memeTemplateHolder.name.setText(memeTemplate.name);
+        memeTemplateHolder.use.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSearchAdapterListener.onUseClicked(memeTemplate.id);
+            }
+        });
     }
 
     @Override
@@ -106,6 +112,8 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ImageView image;
         @BindView(R.id.meme_template_name)
         TextView name;
+        @BindView(R.id.meme_template_use)
+        View use;
 
         MemeTemplateHolder(View itemView) {
             super(itemView);
