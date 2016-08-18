@@ -1,4 +1,4 @@
-package com.bolnizar.memro.fragments;
+package com.bolnizar.memro.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
