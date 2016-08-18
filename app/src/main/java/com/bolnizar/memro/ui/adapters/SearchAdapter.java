@@ -6,6 +6,7 @@ import com.bumptech.glide.Glide;
 import com.orm.SugarRecord;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,15 +26,35 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private static final int TYPE_MEME_TEMPLATE = 1;
 
-    private List<MemeTemplate> mMemeTemplateList = new ArrayList<>();
+    private List<MemeTemplate> mDefaultMemeTemplateList = new ArrayList<>();
+    private List<MemeTemplate> mVisibleMemeTemplateList = new ArrayList<>();
+
+    private String mLastFilterString = "";
 
     public void updateToLatestTemplates() {
-        mMemeTemplateList = SugarRecord.listAll(MemeTemplate.class);
-        notifyDataSetChanged();
+        mDefaultMemeTemplateList = SugarRecord.listAll(MemeTemplate.class);
+        filter(mLastFilterString);
     }
 
     private MemeTemplate getMemeTemplate(int position) {
-        return mMemeTemplateList.get(position);
+        return mVisibleMemeTemplateList.get(position);
+    }
+
+    public void filter(String text) {
+        mLastFilterString = text;
+
+        if (TextUtils.isEmpty(text)) {
+            mVisibleMemeTemplateList = new ArrayList<>(mDefaultMemeTemplateList);
+            notifyDataSetChanged();
+            return;
+        }
+        mVisibleMemeTemplateList.clear();
+        for (MemeTemplate memeTemplate : mDefaultMemeTemplateList) {
+            if (memeTemplate.tags != null && memeTemplate.tags.contains(text)) {
+                mVisibleMemeTemplateList.add(memeTemplate);
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @Override
@@ -60,7 +81,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return mMemeTemplateList.size();
+        return mVisibleMemeTemplateList.size();
     }
 
     static class MemeTemplateHolder extends RecyclerView.ViewHolder {
