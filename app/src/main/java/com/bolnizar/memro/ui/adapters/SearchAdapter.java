@@ -2,6 +2,7 @@ package com.bolnizar.memro.ui.adapters;
 
 import com.bolnizar.memro.R;
 import com.bolnizar.memro.mvp.models.MemeTemplate;
+import com.bolnizar.memro.ui.interfaces.SearchAdapterChangedListener;
 import com.bumptech.glide.Glide;
 import com.orm.SugarRecord;
 
@@ -30,6 +31,11 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<MemeTemplate> mVisibleMemeTemplateList = new ArrayList<>();
 
     private String mLastFilterString = "";
+    private final SearchAdapterChangedListener mSearchAdapterChangedListener;
+
+    public SearchAdapter(SearchAdapterChangedListener searchAdapterChangedListener) {
+        mSearchAdapterChangedListener = searchAdapterChangedListener;
+    }
 
     public void updateToLatestTemplates() {
         mDefaultMemeTemplateList = SugarRecord.listAll(MemeTemplate.class);
@@ -40,12 +46,18 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return mVisibleMemeTemplateList.get(position);
     }
 
+    private void notifySearchDataSetChanged() {
+        notifyDataSetChanged();
+        mSearchAdapterChangedListener.onChange();
+    }
+
     public void filter(String text) {
         mLastFilterString = text;
 
         if (TextUtils.isEmpty(text)) {
             mVisibleMemeTemplateList = new ArrayList<>(mDefaultMemeTemplateList);
-            notifyDataSetChanged();
+
+            notifySearchDataSetChanged();
             return;
         }
         mVisibleMemeTemplateList.clear();
@@ -54,7 +66,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 mVisibleMemeTemplateList.add(memeTemplate);
             }
         }
-        notifyDataSetChanged();
+        notifySearchDataSetChanged();
     }
 
     @Override
@@ -82,6 +94,10 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         return mVisibleMemeTemplateList.size();
+    }
+
+    public boolean isEmpty() {
+        return mVisibleMemeTemplateList.isEmpty();
     }
 
     static class MemeTemplateHolder extends RecyclerView.ViewHolder {

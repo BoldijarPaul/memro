@@ -4,6 +4,7 @@ import com.bolnizar.memro.R;
 import com.bolnizar.memro.mvp.presenters.MemeTemplatesUpdatePresenter;
 import com.bolnizar.memro.mvp.views.MemeTemplatesUpdateView;
 import com.bolnizar.memro.ui.adapters.SearchAdapter;
+import com.bolnizar.memro.ui.interfaces.SearchAdapterChangedListener;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,15 +20,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, MemeTemplatesUpdateView {
+public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, MemeTemplatesUpdateView, SearchAdapterChangedListener {
 
     @BindView(R.id.search_recyclerview)
     RecyclerView mRecyclerView;
+    @BindView(R.id.search_empty_text)
+    TextView mEmptyText;
 
     private Unbinder mUnbinder;
     private MemeTemplatesUpdatePresenter mMemeTemplatesUpdatePresenter;
@@ -38,7 +42,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mMemeTemplatesUpdatePresenter = new MemeTemplatesUpdatePresenter(getContext(), this);
-        mSearchAdapter = new SearchAdapter();
+        mSearchAdapter = new SearchAdapter(this);
     }
 
     @Override
@@ -99,5 +103,11 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public void gotLatestMemeTemplates() {
         mSearchAdapter.updateToLatestTemplates();
+    }
+
+    @Override
+    public void onChange() {
+        boolean adapterEmpty = mSearchAdapter.isEmpty();
+        mEmptyText.setVisibility(adapterEmpty ? View.VISIBLE : View.INVISIBLE);
     }
 }

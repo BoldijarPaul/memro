@@ -3,4 +3,7 @@
 
     <!--menu-->
     <string name="search_title">search</string>
+
+    <!--search fragment-->
+    <string name="nothing_found_search_meme">Nothing found. Try to change your search text.</string>
 </resources>
