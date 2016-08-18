@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "templates": [
     {
       "id": 1,
@@ -24,6 +24,30 @@
       "name": "Nicolae Guta",
       "imageUrl": "http://www.ebihoreanul.ro/modules/news/files/nicolae-guta.jpg",
       "tags": "nicolae,guta,manele"
+    },
+    {
+      "id": 5,
+      "name": "SpongeGar",
+      "imageUrl": "https://imgflip.com/s/meme/Spongegar.jpg",
+      "tags": "sponge,bob,spongebob,spongegar"
+    },
+    {
+      "id": 6,
+      "name": "Grumpy Cat",
+      "imageUrl": "https://imgflip.com/s/meme/Grumpy-Cat.jpg",
+      "tags": "grumpy,cat,grumpycat"
+    },
+    {
+      "id": 7,
+      "name": "Bill",
+      "imageUrl": "https://imgflip.com/s/meme/Be-Like-Bill.jpg",
+      "tags": "bill,be like bill,belikebill,fii ca bill"
+    },
+    {
+      "id": 8,
+      "name": "Plâns",
+      "imageUrl": "https://imgflip.com/s/meme/First-World-Problems.jpg",
+      "tags": "first,world,problems,first world problems,trist,plans"
     }
   ]
 }
