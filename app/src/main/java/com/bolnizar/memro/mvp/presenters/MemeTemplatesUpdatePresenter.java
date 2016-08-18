@@ -79,6 +79,7 @@ public class MemeTemplatesUpdatePresenter extends RxPresenter<MemeTemplatesUpdat
                             SugarRecord.save(memeTemplate);
                         }
                         mMemeTemplatesVersion.set(memeTemplateResponse.version);
+                        getView().gotLatestMemeTemplates();
                         Timber.d("Saved latest templates");
                     }
                 });
