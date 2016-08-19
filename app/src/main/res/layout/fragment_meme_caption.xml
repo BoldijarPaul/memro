@@ -20,7 +20,8 @@
                 android:id="@+id/meme_caption_top_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/top_text" />
+                android:hint="@string/top_text"
+                android:lines="1" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -40,5 +41,6 @@
         </android.support.design.widget.TextInputLayout>
 
         <include layout="@layout/layout_image_caption" />
+
     </LinearLayout>
 </ScrollView>
