@@ -1,4 +1,5 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,4 +17,14 @@
         android:layout_gravity="center"
         android:text="@string/nothing_found_search_meme"
         android:visibility="gone" />
-</FrameLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_white_24dp"
+        app:layout_anchor="@id/search_recyclerview"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_behavior="com.bolnizar.memro.ui.custom.ScrollAwareFABBehavior" />
+</android.support.design.widget.CoordinatorLayout>
