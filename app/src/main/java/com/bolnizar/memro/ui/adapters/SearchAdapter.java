@@ -87,7 +87,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        MemeTemplateHolder memeTemplateHolder = (MemeTemplateHolder) holder;
+        final MemeTemplateHolder memeTemplateHolder = (MemeTemplateHolder) holder;
         final MemeTemplate memeTemplate = getMemeTemplate(position);
         Glide.with(memeTemplateHolder.image.getContext()).load(memeTemplate.imageUrl).into(memeTemplateHolder.image);
         memeTemplateHolder.name.setText(memeTemplate.name);
@@ -96,6 +96,15 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             public void onClick(View view) {
                 if (mSearchAdapterListener != null) {
                     mSearchAdapterListener.onUseClicked(memeTemplate.memeServerId);
+                }
+            }
+        });
+        memeTemplateHolder.remove.setVisibility(memeTemplate.fromServer ? View.GONE : View.VISIBLE);
+        memeTemplateHolder.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mSearchAdapterListener != null) {
+                    mSearchAdapterListener.onDeleteTemplate(memeTemplate.id);
                 }
             }
         });
@@ -118,6 +127,8 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView name;
         @BindView(R.id.meme_template_use)
         View use;
+        @BindView(R.id.meme_template_remove)
+        View remove;
 
         MemeTemplateHolder(View itemView) {
             super(itemView);

@@ -7,4 +7,6 @@ public interface SearchAdapterListener {
     void onChange();
 
     void onUseClicked(long memeId);
+
+    void onDeleteTemplate(Long id);
 }

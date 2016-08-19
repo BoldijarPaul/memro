@@ -137,7 +137,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     @Override
-    public void gotLatestMemeTemplates() {
+    public void updateMemeTemplates() {
         mSearchAdapter.updateToLatestTemplates();
     }
 
@@ -150,5 +150,10 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public void onUseClicked(long memeId) {
         EventBus.getDefault().post(new OpenMemeCaption(memeId));
+    }
+
+    @Override
+    public void onDeleteTemplate(Long id) {
+        mMemeTemplatesUpdatePresenter.removeMemeTemplate(id);
     }
 }

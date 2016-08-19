@@ -84,10 +84,15 @@ public class MemeTemplatesUpdatePresenter extends RxPresenter<MemeTemplatesUpdat
                                     SugarRecord.save(memeTemplate);
                                 }
                                 mMemeTemplatesVersion.set(memeTemplateResponse.version);
-                                getView().gotLatestMemeTemplates();
+                                getView().updateMemeTemplates();
                                 Timber.d("Saved latest templates");
                             }
                         });
         manageViewSubscription(subscription);
+    }
+
+    public void removeMemeTemplate(Long id) {
+        SugarRecord.deleteAll(MemeTemplate.class, "id = ?", id + "");
+        getView().updateMemeTemplates();
     }
 }

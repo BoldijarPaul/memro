@@ -13,6 +13,7 @@
 
     <!--meme item-->
     <string name="use">use</string>
+    <string name="remove">remove</string>
 
     <!--add template menu-->
     <string name="done">Done</string>

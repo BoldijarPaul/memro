@@ -9,6 +9,7 @@ import com.orm.dsl.Table;
  */
 @Table
 public class MemeTemplate {
+    public Long id;
     @SerializedName("id")
     public long memeServerId;
     public String name;
