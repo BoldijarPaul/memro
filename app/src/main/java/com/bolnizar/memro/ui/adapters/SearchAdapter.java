@@ -31,9 +31,9 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<MemeTemplate> mVisibleMemeTemplateList = new ArrayList<>();
 
     private String mLastFilterString = "";
-    private final SearchAdapterListener mSearchAdapterListener;
+    private SearchAdapterListener mSearchAdapterListener;
 
-    public SearchAdapter(SearchAdapterListener searchAdapterListener) {
+    public void setSearchAdapterListener(SearchAdapterListener searchAdapterListener) {
         mSearchAdapterListener = searchAdapterListener;
     }
 
@@ -48,7 +48,9 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private void notifySearchDataSetChanged() {
         notifyDataSetChanged();
-        mSearchAdapterListener.onChange();
+        if (mSearchAdapterListener != null) {
+            mSearchAdapterListener.onChange();
+        }
     }
 
     public void filter(String text) {
@@ -92,7 +94,9 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         memeTemplateHolder.use.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSearchAdapterListener.onUseClicked(memeTemplate.id);
+                if (mSearchAdapterListener != null) {
+                    mSearchAdapterListener.onUseClicked(memeTemplate.id);
+                }
             }
         });
     }

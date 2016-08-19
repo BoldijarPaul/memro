@@ -45,7 +45,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mMemeTemplatesUpdatePresenter = new MemeTemplatesUpdatePresenter(getContext(), this);
-        mSearchAdapter = new SearchAdapter(this);
+        mSearchAdapter = new SearchAdapter();
     }
 
     @Override
@@ -58,7 +58,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mUnbinder = ButterKnife.bind(this, view);
-        mSearchAdapter = new SearchAdapter(this);
         mMemeTemplatesUpdatePresenter.wakeUp();
         setupList();
     }
@@ -66,6 +65,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     private void setupList() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mSearchAdapter);
+        mSearchAdapter.setSearchAdapterListener(this);
         mSearchAdapter.updateToLatestTemplates();
     }
 
@@ -83,6 +83,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public void onDestroyView() {
+        mSearchAdapter.setSearchAdapterListener(null);
         mUnbinder.unbind();
         mMemeTemplatesUpdatePresenter.sleep();
         mSearchAdapter = null;
