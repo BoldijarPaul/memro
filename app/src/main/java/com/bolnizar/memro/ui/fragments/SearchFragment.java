@@ -1,6 +1,7 @@
 package com.bolnizar.memro.ui.fragments;
 
 import com.bolnizar.memro.R;
+import com.bolnizar.memro.events.OpenAddTemplate;
 import com.bolnizar.memro.events.OpenMemeCaption;
 import com.bolnizar.memro.mvp.presenters.MemeTemplatesUpdatePresenter;
 import com.bolnizar.memro.mvp.views.MemeTemplatesUpdateView;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener, MemeTemplatesUpdateView, SearchAdapterListener {
@@ -67,6 +69,11 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         mRecyclerView.setAdapter(mSearchAdapter);
         mSearchAdapter.setSearchAdapterListener(this);
         mSearchAdapter.updateToLatestTemplates();
+    }
+
+    @OnClick(R.id.search_fab)
+    void fabClicked() {
+        EventBus.getDefault().post(new OpenAddTemplate());
     }
 
     @SuppressWarnings("ConstantConditions")

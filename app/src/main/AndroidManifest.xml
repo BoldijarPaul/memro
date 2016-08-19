@@ -34,7 +34,9 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.bolnizar.memro" />
 
-        <activity android:name=".ui.activities.CaptionMemeActivity"></activity>
+        <activity android:name=".ui.activities.CaptionMemeActivity" />
+        <activity android:name=".AddTemplateActivity"
+            android:label="@string/add_template_title"/>
     </application>
 
 </manifest>

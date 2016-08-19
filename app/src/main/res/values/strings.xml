@@ -13,4 +13,10 @@
 
     <!--meme item-->
     <string name="use">use</string>
+
+    <!--add template menu-->
+    <string name="done">Done</string>
+
+    <!--add template activity-->
+    <string name="add_template_title">Add own template</string>
 </resources>

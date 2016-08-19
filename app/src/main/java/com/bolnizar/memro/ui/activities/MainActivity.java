@@ -1,6 +1,8 @@
 package com.bolnizar.memro.ui.activities;
 
+import com.bolnizar.memro.AddTemplateActivity;
 import com.bolnizar.memro.R;
+import com.bolnizar.memro.events.OpenAddTemplate;
 import com.bolnizar.memro.events.OpenMemeCaption;
 import com.bolnizar.memro.ui.fragments.SearchFragment;
 
@@ -9,6 +11,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -29,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(OpenMemeCaption event) {
         startActivity(CaptionMemeActivity.createIntent(event.memeId, this));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(OpenAddTemplate event) {
+        startActivity(new Intent(this, AddTemplateActivity.class));
     }
 
     private void switchFragment(Fragment fragment, boolean addToBackstack) {
