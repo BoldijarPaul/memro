@@ -4,6 +4,7 @@
     package="com.bolnizar.memro">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".ui.BaseApp"
         android:allowBackup="true"
@@ -32,6 +33,8 @@
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.bolnizar.memro" />
+
+        <activity android:name=".ui.activities.CaptionMemeActivity"></activity>
     </application>
 
 </manifest>

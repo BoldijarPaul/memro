@@ -1,4 +1,4 @@
-package com.bolnizar.memro.ui.fragments;
+package com.bolnizar.memro.ui.activities;
 
 import com.bolnizar.memro.R;
 import com.bolnizar.memro.mvp.models.MemeTemplate;
@@ -7,24 +7,27 @@ import com.bolnizar.memro.mvp.views.MemeCaptionView;
 import com.bumptech.glide.Glide;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import rx.Observable;
 
-public class MemeCaptionFragment extends Fragment implements MemeCaptionView {
+public class CaptionMemeActivity extends AppCompatActivity implements MemeCaptionView {
 
     private static final String ARG_MEME_ID = "argmemeid";
+
+    public static Intent createIntent(Long memeId, Context context) {
+        Intent intent = new Intent(context, CaptionMemeActivity.class);
+        intent.putExtra(ARG_MEME_ID, memeId);
+        return intent;
+    }
 
     @BindView(R.id.meme_caption_bottom_edittext)
     EditText mBottomEditText;
@@ -37,41 +40,27 @@ public class MemeCaptionFragment extends Fragment implements MemeCaptionView {
     @BindView(R.id.meme_caption_image)
     ImageView mMemeImage;
 
-    private Unbinder mUnbinder;
     private MemeCaptionPresenter mMemeCaptionPresenter;
 
-    public static MemeCaptionFragment newInstance(Long memeId) {
-
-        Bundle args = new Bundle();
-        args.putLong(ARG_MEME_ID, memeId);
-        MemeCaptionFragment fragment = new MemeCaptionFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_meme_caption, container, false);
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_meme_caption);
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (!getArguments().containsKey(ARG_MEME_ID)) {
+        long memeId = getIntent().getLongExtra(ARG_MEME_ID, -1);
+        if (memeId == -1) {
             throw new IllegalStateException("missing argument for meme id");
         }
-        mUnbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this);
         mMemeCaptionPresenter = new MemeCaptionPresenter(this);
         mMemeCaptionPresenter.wakeUp();
-        mMemeCaptionPresenter.loadMemeById(getArguments().getLong(ARG_MEME_ID, 0));
+        mMemeCaptionPresenter.loadMemeById(memeId);
     }
 
     @Override
-    public void onDestroyView() {
-        mUnbinder.unbind();
+    protected void onDestroy() {
         mMemeCaptionPresenter.sleep();
-        super.onDestroyView();
+        super.onDestroy();
     }
 
     @Override
@@ -96,6 +85,6 @@ public class MemeCaptionFragment extends Fragment implements MemeCaptionView {
 
     @Override
     public void showMeme(MemeTemplate memeTemplate) {
-        Glide.with(getContext()).load(memeTemplate.imageUrl).into(mMemeImage);
+        Glide.with(this).load(memeTemplate.imageUrl).into(mMemeImage);
     }
 }

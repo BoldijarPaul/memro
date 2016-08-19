@@ -10,6 +10,7 @@ import rx.Observable;
 public interface MemeCaptionView {
 
     Observable<CharSequence> getTopTextChange();
+
     Observable<CharSequence> getBottomTextChange();
 
     void topTextChanged(CharSequence charSequence);

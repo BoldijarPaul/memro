@@ -2,7 +2,6 @@ package com.bolnizar.memro.ui.activities;
 
 import com.bolnizar.memro.R;
 import com.bolnizar.memro.events.OpenMemeCaption;
-import com.bolnizar.memro.ui.fragments.MemeCaptionFragment;
 import com.bolnizar.memro.ui.fragments.SearchFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(OpenMemeCaption event) {
-        switchFragment(MemeCaptionFragment.newInstance(event.memeId), true);
+        startActivity(CaptionMemeActivity.createIntent(event.memeId, this));
     }
 
     private void switchFragment(Fragment fragment, boolean addToBackstack) {
