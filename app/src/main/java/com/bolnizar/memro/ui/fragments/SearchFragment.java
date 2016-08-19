@@ -3,12 +3,15 @@ package com.bolnizar.memro.ui.fragments;
 import com.bolnizar.memro.R;
 import com.bolnizar.memro.events.OpenAddTemplate;
 import com.bolnizar.memro.events.OpenMemeCaption;
+import com.bolnizar.memro.events.RefreshMemeTemplatesEvent;
 import com.bolnizar.memro.mvp.presenters.MemeTemplatesUpdatePresenter;
 import com.bolnizar.memro.mvp.views.MemeTemplatesUpdateView;
 import com.bolnizar.memro.ui.adapters.SearchAdapter;
 import com.bolnizar.memro.ui.interfaces.SearchAdapterListener;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -48,6 +51,26 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         setHasOptionsMenu(true);
         mMemeTemplatesUpdatePresenter = new MemeTemplatesUpdatePresenter(getContext(), this);
         mSearchAdapter = new SearchAdapter();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onEvent(RefreshMemeTemplatesEvent event) {
+        if (mSearchAdapter != null) {
+            mSearchAdapter.filter("");
+            mSearchAdapter.updateToLatestTemplates();
+        }
     }
 
     @Override
@@ -125,7 +148,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     @Override
-    public void onUseClicked(Long memeId) {
+    public void onUseClicked(long memeId) {
         EventBus.getDefault().post(new OpenMemeCaption(memeId));
     }
 }

@@ -19,4 +19,9 @@
 
     <!--add template activity-->
     <string name="add_template_title">Add own template</string>
+    <string name="choose_image">Choose image</string>
+    <string name="image_load_error">Can\'t load image! Please try using other image.</string>
+    <string name="your_meme_template_name">Your meme template name</string>
+    <string name="choose_image_and_name"><![CDATA[You need to choose an image & name!]]></string>
+    <string name="template_saved">Template successfully saved!</string>
 </resources>

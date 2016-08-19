@@ -4,6 +4,7 @@
     package="com.bolnizar.memro">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".ui.BaseApp"
@@ -35,8 +36,9 @@
             android:value="com.bolnizar.memro" />
 
         <activity android:name=".ui.activities.CaptionMemeActivity" />
-        <activity android:name=".AddTemplateActivity"
-            android:label="@string/add_template_title"/>
+        <activity
+            android:name=".AddTemplateActivity"
+            android:label="@string/add_template_title" />
     </application>
 
 </manifest>

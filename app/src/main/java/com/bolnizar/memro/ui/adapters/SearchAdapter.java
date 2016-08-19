@@ -38,7 +38,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public void updateToLatestTemplates() {
-        mDefaultMemeTemplateList = SugarRecord.listAll(MemeTemplate.class);
+        mDefaultMemeTemplateList = SugarRecord.listAll(MemeTemplate.class, "from_server ASC, id DESC");
         filter(mLastFilterString);
     }
 
@@ -95,7 +95,7 @@ public class SearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             @Override
             public void onClick(View view) {
                 if (mSearchAdapterListener != null) {
-                    mSearchAdapterListener.onUseClicked(memeTemplate.id);
+                    mSearchAdapterListener.onUseClicked(memeTemplate.memeServerId);
                 }
             }
         });

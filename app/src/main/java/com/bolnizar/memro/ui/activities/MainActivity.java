@@ -4,6 +4,7 @@ import com.bolnizar.memro.AddTemplateActivity;
 import com.bolnizar.memro.R;
 import com.bolnizar.memro.events.OpenAddTemplate;
 import com.bolnizar.memro.events.OpenMemeCaption;
+import com.bolnizar.memro.events.RefreshMemeTemplatesEvent;
 import com.bolnizar.memro.ui.fragments.SearchFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -21,6 +22,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int ADD_TEMPLATE_CODE = 69;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(OpenAddTemplate event) {
-        startActivity(new Intent(this, AddTemplateActivity.class));
+        startActivityForResult(new Intent(this, AddTemplateActivity.class), ADD_TEMPLATE_CODE);
     }
 
     private void switchFragment(Fragment fragment, boolean addToBackstack) {
@@ -64,4 +67,12 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ADD_TEMPLATE_CODE && resultCode == RESULT_OK) {
+            EventBus.getDefault().postSticky(new RefreshMemeTemplatesEvent());
+        }
+    }
 }

@@ -78,6 +78,7 @@ public class MemeTemplatesUpdatePresenter extends RxPresenter<MemeTemplatesUpdat
                                     return;
                                 }
                                 List<MemeTemplate> memeTemplates = memeTemplateResponse.memeTemplates;
+                                SugarRecord.deleteAll(MemeTemplate.class, "from_server = ?", "true");
                                 for (int i = 0, memeTemplatesSize = memeTemplates.size(); i < memeTemplatesSize; i++) {
                                     MemeTemplate memeTemplate = memeTemplates.get(i);
                                     SugarRecord.save(memeTemplate);

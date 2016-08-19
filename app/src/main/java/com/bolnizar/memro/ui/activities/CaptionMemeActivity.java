@@ -23,7 +23,7 @@ public class CaptionMemeActivity extends AppCompatActivity implements MemeCaptio
 
     private static final String ARG_MEME_ID = "argmemeid";
 
-    public static Intent createIntent(Long memeId, Context context) {
+    public static Intent createIntent(long memeId, Context context) {
         Intent intent = new Intent(context, CaptionMemeActivity.class);
         intent.putExtra(ARG_MEME_ID, memeId);
         return intent;
@@ -49,7 +49,7 @@ public class CaptionMemeActivity extends AppCompatActivity implements MemeCaptio
 
         long memeId = getIntent().getLongExtra(ARG_MEME_ID, -1);
         if (memeId == -1) {
-            throw new IllegalStateException("missing argument for meme id");
+            throw new IllegalStateException("missing argument for meme memeServerId");
         }
         ButterKnife.bind(this);
         mMemeCaptionPresenter = new MemeCaptionPresenter(this);

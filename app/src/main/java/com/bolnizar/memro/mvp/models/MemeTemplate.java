@@ -1,5 +1,7 @@
 package com.bolnizar.memro.mvp.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import com.orm.dsl.Table;
 
 /**
@@ -7,8 +9,11 @@ import com.orm.dsl.Table;
  */
 @Table
 public class MemeTemplate {
-    public Long id;
+    @SerializedName("id")
+    public long memeServerId;
     public String name;
     public String imageUrl;
     public String tags;
+    public boolean fromServer = true;
+
 }

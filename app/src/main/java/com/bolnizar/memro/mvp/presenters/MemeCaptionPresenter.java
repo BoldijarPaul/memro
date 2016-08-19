@@ -5,6 +5,8 @@ import com.bolnizar.memro.mvp.models.MemeTemplate;
 import com.bolnizar.memro.mvp.views.MemeCaptionView;
 import com.orm.SugarRecord;
 
+import java.util.List;
+
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -45,10 +47,10 @@ public class MemeCaptionPresenter extends RxPresenter<MemeCaptionView> {
     }
 
     public void loadMemeById(Long memeId) {
-        MemeTemplate memeTemplate = SugarRecord.findById(MemeTemplate.class, memeId);
-        if (memeTemplate == null) {
+        List<MemeTemplate> memeTemplates = SugarRecord.find(MemeTemplate.class, "meme_server_id = ?", memeId + "");
+        if (memeTemplates == null || memeTemplates.size() == 0) {
             return;
         }
-        getView().showMeme(memeTemplate);
+        getView().showMeme(memeTemplates.get(0));
     }
 }
